@@ -95,7 +95,7 @@ class MetaWearUSB(object):
         """Connect to device by establishing USB serial comm link"""
         future = asyncio.get_running_loop().create_future()
         self.connect_async(
-            handler=lambda error: future.set_result(None) if error is None else future.set_exception(error)
+            handler=lambda error: future.set_result(None) if error is None else future.set_exception(Exception(error))
         )
         await future
 
@@ -103,7 +103,7 @@ class MetaWearUSB(object):
         """Connect to device by establishing USB serial comm link"""
         status = None
         try:
-            self.ser = serial.Serial(MetaWearUSB._device_path(self.address), 1000000, timeout=.1)
+            self.ser = serial.Serial(MetaWearUSB._device_path(self.address), 1000000)
             time.sleep(0.10)
 
             self.ser.reset_input_buffer()
@@ -127,7 +127,7 @@ class MetaWearUSB(object):
             self._read_thread.start()
             self._write_thread.start()
 
-        except serial.SerialException:
+        except Exception:
             self.ser = None
             status = Const.STATUS_ERROR_TIMEOUT
 

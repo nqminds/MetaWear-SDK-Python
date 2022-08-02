@@ -78,7 +78,7 @@ setup(
     install_requires=[
         'bleak >= 0.14.3',
         'requests',
-        'pyserial'
+        'pyserial >= 3.0.0'
     ],
     cmdclass={
         'build_py': MetaWearBuild,
