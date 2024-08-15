@@ -16,6 +16,7 @@ init_libmetawear(libmetawear)
 
 from .metawear import MetaWear
 from .metawear import MetaWearUSB
+from .metawear import MetaWearAsyncio
 
 _value_parsers = {
     DataTypeId.UINT32: lambda p: cast(p.contents.value, POINTER(c_uint)).contents.value,
@@ -72,7 +73,7 @@ def create_voidp(fn, **kwargs):
 
     result = [None]
     def handler(ctx, pointer):
-        result[0] = RuntimeError("Could not create " + (kwargs['resource'] if 'resource' in kwarg else "resource") ) if pointer == None else pointer
+        result[0] = RuntimeError("Could not create " + (kwargs['resource'] if 'resource' in kwargs else "resource") ) if pointer == None else pointer
         e.set()
 
     callback_wrapper = FnVoid_VoidP_VoidP(handler)
